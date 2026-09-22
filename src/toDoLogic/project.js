@@ -21,11 +21,11 @@ export class ProjectHandler{
     
     editTodo(id, field, value){
         const index = this.todoCollection.findIndex(task => task.id === id);
-        this.todoCollection[index].field = value;
+        this.todoCollection[index][field] = value;
     }
 
     showAll(){
-        for(task of this.todoCollection){
+        for(let task of this.todoCollection){
             console.log(`id: ${task.id}`);
             console.log(`title: ${task.title}`);
             console.log(`description: ${task.description}`);
