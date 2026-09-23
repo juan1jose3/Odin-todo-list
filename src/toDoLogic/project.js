@@ -8,6 +8,12 @@ export class ProjectHandler{
         this.todoCollection = [];
     }
 
+    getTodoIndex(id){
+        const index = this.todoCollection.findIndex(todo => todo.id === id);
+        if(index === -1) return;
+        return index;
+    }
+
     
     addTodo(id,title, description = "", dueDate, priority){
         const newTask = new ToDoTask(id, title, description, dueDate, priority);
@@ -15,16 +21,18 @@ export class ProjectHandler{
     }
 
     deleteTodo(id){
-        const index = this.todoCollection.findIndex(task => task.id === id);
+        const index = this.getTodoIndex(id);
+        if(index === undefined) return;
         this.todoCollection.splice(index, 1);
     }
     
     editTodo(id, field, value){
-        const index = this.todoCollection.findIndex(task => task.id === id);
+        const index = this.getTodoIndex(id);
+        if(index === undefined) return;
         this.todoCollection[index][field] = value;
     }
 
-    showAll(){
+    showAll(){ // I have to change this to return when UI
         for(let task of this.todoCollection){
             console.log(`id: ${task.id}`);
             console.log(`title: ${task.title}`);
