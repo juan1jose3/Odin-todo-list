@@ -20,27 +20,38 @@ export class StateHandler{
         this.projectCollection.push(newProject);
     }
 
+    showProjects(){
+        for(let project of this.projectCollection){
+            console.log(`Project: ${project.projectName}`);
+            console.log(`Project description: ${project.projectDescription}`);
+        }
+    }
+
+    deleteProject(projectId){
+        this.projectCollection.splice(this.projectCollection.findIndex(index => index.projectId === projectId), 1);
+    }
+
     
     
     
-    showTodos(projectId){
+    showTodoTasks(projectId){
         const projectIdIndex = this.getProjectIndex(projectId);
         this.projectCollection[projectIdIndex].showAll();
     }
 
-    createTodo(projectId, title, description = "", dueDate, priority){
+    createTodoTask(projectId, title, description = "", dueDate, priority){
         const id = this.counter;
         this.counter ++;
         const index = this.getProjectIndex(projectId);
         this.projectCollection[index].addTodo(id,title, description, dueDate, priority);
     }
 
-    deleteTask(projectId, taskId){
+    deleteTodoTask(projectId, taskId){
         const projectIdIndex = this.getProjectIndex(projectId);
         this.projectCollection[projectIdIndex].deleteTodo(taskId);
     }
 
-    editTask(projectId, taskId, field, value){
+    editTodoTask(projectId, taskId, field, value){
         const projectIdIndex = this.getProjectIndex(projectId)
         this.projectCollection[projectIdIndex].editTodo(taskId, field, value);
     }
