@@ -1,4 +1,6 @@
+import "./styles.css";
 import { StateHandler } from "./toDoLogic/state";
+
 
 const state = new StateHandler();
 
