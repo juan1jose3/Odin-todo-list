@@ -31,6 +31,11 @@ export class StateHandler{
         this.projectCollection.splice(this.projectCollection.findIndex(index => index.projectId === projectId), 1);
     }
 
+    editProject(projectId, field, value){
+        const projectIndex = this.getProjectIndex(projectId);
+        this.projectCollection[projectIndex][field] = value;
+    }
+
     
     
     
