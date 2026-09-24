@@ -40,8 +40,7 @@ export class StateHandler{
     }
 
     // TodoTask methods
-    
-    
+     
     showTodoTasks(projectId){ // I have to replace this by returning when UI
         this.projectCollection[this.getProjectIndex(projectId)].showAll();
     }
