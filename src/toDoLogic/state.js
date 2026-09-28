@@ -3,7 +3,6 @@ import { ProjectHandler } from "./project";
 export class StateHandler{
     constructor(){
         this.projectCollection = [];
-        this.counter = 1; // I have to remove this
     }
 
     getProjectIndex(projectId){
@@ -14,8 +13,8 @@ export class StateHandler{
         return index;
     }
 
-    addProject(projectId,name, description = ""){
-        //const id = crypto.randomUUID();
+    addProject(name, description = ""){
+        const projectId = crypto.randomUUID();
         const newProject = new ProjectHandler(projectId, name, description);
         this.projectCollection.push(newProject);
     }
@@ -46,11 +45,10 @@ export class StateHandler{
     }
 
     createTodoTask(projectId, title, description = "", dueDate, priority){
-        const id = this.counter;
-        this.counter ++; // remove this and use crypto.randomUUID(); 
+        const taskId = crypto.randomUUID();
         const index = this.getProjectIndex(projectId);
         if(index === undefined) return;
-        this.projectCollection[index].addTodo(id,title, description, dueDate, priority);
+        this.projectCollection[index].addTodo(taskId,title, description, dueDate, priority);
     }
 
     deleteTodoTask(projectId, taskId){
