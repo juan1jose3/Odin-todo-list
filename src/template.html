@@ -16,8 +16,33 @@
             </div>
 
             <div class="project-list">
-                <div>Current Projects</div>
-                <div class="current-projects"><button>+</button></div>
+                <div>Current Projects <button class="create-project" commandfor="custom-dialog" command="show-modal">+</button></div>
+
+                <dialog id="custom-dialog" class="dialog-item">
+                    <h4>Add a project</h4>
+                    <hr>
+                    <div class="form-wrapper">
+                        <form action="">
+                            <div class="form-item-wrapper">
+                                <div class="form-item">
+                                    <div>
+                                        <label for="project-name">Project Name: *</label>
+                                    </div>
+                                    <input type="text" name="projectName" id="project-name" required>
+                                </div>
+                                <div class="form-item">
+                                    <div>
+                                        <label for="description">Description:</label>
+                                    </div>
+                                    <textarea name="description" id="description" rows="4" cols="50"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <hr>
+                    <button commandfor="custom-dialog" command="close">Close</button>
+                </dialog>
+                
             </div>
             
         </div>
