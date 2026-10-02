@@ -9,38 +9,43 @@
     <div class="main-container">
         <div class="sidebar">
             <div class="options-menu">
-                <div><button class="search">Search</button></div>
-                <div><button class="today">Today</button></div>
-                <div><button class="upcoming">Upcoming</button></div>
-                <div><button class="all-tasks">All tasks</button></div>
+                <div><button class="search custom-button">Search</button></div>
+                <div><button class="today custom-button">Today</button></div>
+                <div><button class="upcoming custom-button">Upcoming</button></div>
+                <div><button class="all-tasks custom-button">All tasks</button></div>
             </div>
 
             <div class="project-list">
-                <div>Current Projects <button class="create-project" commandfor="custom-dialog" command="show-modal">+</button></div>
+                <div>Current Projects <button class="custom-button" commandfor="custom-dialog" command="show-modal">+</button></div>
 
                 <dialog id="custom-dialog" class="dialog-item">
                     <h4>Add a project</h4>
                     <hr>
                     <div class="form-wrapper">
-                        <form action="">
+                        <form class="project-form">
                             <div class="form-item-wrapper">
                                 <div class="form-item">
-                                    <div>
+                                    <div class="label-wrapper">
                                         <label for="project-name">Project Name: *</label>
                                     </div>
                                     <input type="text" name="projectName" id="project-name" required>
                                 </div>
                                 <div class="form-item">
-                                    <div>
+                                    <div class="label-wrapper">
                                         <label for="description">Description:</label>
                                     </div>
                                     <textarea name="description" id="description" rows="4" cols="50"></textarea>
                                 </div>
+                                <hr>
+                            </div>
+                            <div class="form-button-container">
+                                <button type="button" class="custom-button create-project">Create!</button>
+
+                                <button type="button" commandfor="custom-dialog" command="close" class="custom-button">Close</button>
                             </div>
                         </form>
                     </div>
-                    <hr>
-                    <button commandfor="custom-dialog" command="close">Close</button>
+                    
                 </dialog>
                 
             </div>

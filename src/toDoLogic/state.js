@@ -19,11 +19,8 @@ export class StateHandler{
         this.projectCollection.push(newProject);
     }
 
-    showProjects(){ // I have to change this to return when UI
-        for(let project of this.projectCollection){
-            console.log(`Project: ${project.projectName}`);
-            console.log(`Project description: ${project.projectDescription}`);
-        }
+    getProjects(){ // I have to change this to return when UI
+        return this.projectCollection;
     }
 
     deleteProject(projectId){

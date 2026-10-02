@@ -14,6 +14,8 @@ export class TodoController{
         sidebar.addEventListener("click", event => {
             const btn = event.target.closest("button");
             if(!btn) return;
+
+            this.todoView.renderProjects(this.stateHandler.getProjects());
             
             if(btn.classList.contains("today")){
                 this.wipeView();
@@ -24,14 +26,27 @@ export class TodoController{
             }else if(btn.classList.contains("all-tasks")){
                 this.wipeView();
                 this.todoView.renderAllTasks();
+            }else if(btn.classList.contains("create-project")){
+                this.createNewProject();
+                this.showProjects();
+                
             }
         });
     }
     
     // project methods
 
-    createNewProject(projectName, description){
-        this.stateHandler.addProject(projectName, description);
+    createNewProject(){
+        const form = document.querySelector(".project-form");
+        const formData = new FormData(form);
+        const projectName = formData.get("projectName").trim();
+        if(projectName === "") return;
+        const projectDescription = formData.get("description").trim();
+        console.log(projectName);
+        console.log(projectDescription);
+        this.stateHandler.addProject(projectName, projectDescription);
+        form.reset();
+        document.querySelector(".dialog-item").close();
     }
 
     deleteProject(projectId){
@@ -43,7 +58,7 @@ export class TodoController{
     }
 
     showProjects(){
-        this.stateHandler.showProjects();
+        console.log(this.stateHandler.getProjects());
     }
 
     // task methods

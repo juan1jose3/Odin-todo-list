@@ -23,20 +23,52 @@
     --surface-background:#101B2B;
     --elevated-surface:#1A273B;
     --primary-accent:#007DFF;
+    --input-background:#131b26;
     --primary-text: #FFFFFF;
     --secondary-text:#6B809B;
+
+    /* Input & Textarea */
+    --input-bg: #101826;
+    --input-text: #F1F5F9;
+    --input-border-default: #2D3D56;
+    --input-border-hover: #475569;
+    --input-border-focus: #3B82F6;
+    --input-focus-glow: rgba(59, 130, 246, 0.25);
+    --button-hover: #24344D;
+
 }
 
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--input-border-default) var(--elevated-surface, #1A273B);
 }
 
 body{
     font-family: 'Inter 24pt', sans-serif;
     background-color: var(--main-background);
     color: var(--primary-text);
+}
+
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+  
+::-webkit-scrollbar-track {
+    background: var(--elevated-surface, #1A273B);
+}
+  
+::-webkit-scrollbar-thumb {
+    background: var(--input-border-default);
+    border-radius: 6px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: var(--input-border-hover);
 }
 
 .main-container{
@@ -62,7 +94,7 @@ body{
     
 }
 
-.main-container button{
+.custom-button{
     padding: 10px 10px 10px 10px;
     border: transparent;
     background-color: transparent;
@@ -73,8 +105,8 @@ body{
     transition: background-color 0.2s ease;
 }
 
-.main-container button:hover{
-    background-color: var(--elevated-surface);
+.custom-button:hover{
+    background-color: var(--button-hover);
 }
 
 .sidebar .project-list{
@@ -92,12 +124,17 @@ body{
     position: fixed;
     inset: 0px;
     min-width: 25%;    
-    height: 300px;
+    height: 400px;
     margin: auto;
     background-color: var(--elevated-surface);
     color: var(--primary-text);
     border: none;
     border-radius: 8px;
+
+}
+
+.dialog-item h4{
+    padding-bottom: 1.5rem;
 }
 
 .form-wrapper form{
@@ -114,3 +151,34 @@ body{
     padding:1rem 1rem 1rem 1rem;
 }
 
+hr{
+    border: none;
+    height: 1px;
+    background-color: var(--input-border-default);
+}
+
+.form-item .label-wrapper label{
+    font-size: var(--step--1);
+}
+
+input[type="text"],
+.form-item textarea{
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border-default);
+    border-radius: 6px;
+    outline: none;
+    padding: 8px 12px;
+    color: var(--input-text);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-size: var(--step--1);
+}
+
+input[type="text"]{
+    height: 35px;
+    width: 100%;
+}
+
+input[type="text"]:hover,
+.form-item textarea:hover{
+    border-color: var(--input-border-hover);
+}
