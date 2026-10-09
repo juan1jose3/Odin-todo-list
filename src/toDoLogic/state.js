@@ -13,6 +13,10 @@ export class StateHandler{
         return index;
     }
 
+    getProjectById(projectId){
+        return this.projectCollection.find(project => project.projectId === projectId); 
+    }
+
     addProject(projectId,name, description = ""){
         const newProject = new ProjectHandler(projectId, name, description);
         this.projectCollection.push(newProject);

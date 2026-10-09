@@ -24,6 +24,10 @@ export class TodoController{
                 this.todoView.renderAllTasks();
             }else if(btn.classList.contains("create-project")){
                 this.createNewProject();
+            }else if(btn.classList.contains("project-item")){
+                const projectId = btn.dataset.projectId;
+                const project = this.stateHandler.getProjectById(projectId);
+                this.todoView.renderProject(project);
             }
         });
     }
@@ -32,6 +36,8 @@ export class TodoController{
     
     createNewProject(){
         const form = document.querySelector(".project-form");
+        const dialogItem = document.querySelector(".dialog-item");
+
         const formData = new FormData(form);
         const projectName = formData.get("projectName").trim();
         if(projectName === "") return;
@@ -39,8 +45,10 @@ export class TodoController{
         const projectId = crypto.randomUUID();
         this.stateHandler.addProject(projectId,projectName, projectDescription);
         form.reset();
+        dialogItem.close();
         
-        this.todoView.renderProject(this.stateHandler.getProjects());
+        
+        this.todoView.renderCurrentProjectToSideBar(this.stateHandler.getProjects());
     }
 
     deleteProject(projectId){
