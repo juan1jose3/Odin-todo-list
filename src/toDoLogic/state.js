@@ -13,8 +13,7 @@ export class StateHandler{
         return index;
     }
 
-    addProject(name, description = ""){
-        const projectId = crypto.randomUUID();
+    addProject(projectId,name, description = ""){
         const newProject = new ProjectHandler(projectId, name, description);
         this.projectCollection.push(newProject);
     }

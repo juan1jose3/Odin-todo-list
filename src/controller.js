@@ -4,10 +4,6 @@ export class TodoController{
         this.todoView = todoView;
     }
 
-    wipeView(){
-        const mainContent = document.querySelector(".main-content");
-        mainContent.textContent = "";
-    }
 
     showView(){
         const sidebar = document.querySelector(".sidebar");
@@ -18,35 +14,33 @@ export class TodoController{
             this.todoView.renderProjects(this.stateHandler.getProjects());
             
             if(btn.classList.contains("today")){
-                this.wipeView();
+                this.todoView.wipeView();
                 this.todoView.renderToday();
             }else if(btn.classList.contains("upcoming")){
-                this.wipeView();
+                this.todoView.wipeView();
                 this.todoView.renderUpcoming();
             }else if(btn.classList.contains("all-tasks")){
-                this.wipeView();
+                this.todoView.wipeView();
                 this.todoView.renderAllTasks();
             }else if(btn.classList.contains("create-project")){
                 this.createNewProject();
-                this.showProjects();
-                
             }
         });
     }
     
     // project methods
-
+    
     createNewProject(){
         const form = document.querySelector(".project-form");
         const formData = new FormData(form);
         const projectName = formData.get("projectName").trim();
         if(projectName === "") return;
         const projectDescription = formData.get("description").trim();
-        console.log(projectName);
-        console.log(projectDescription);
-        this.stateHandler.addProject(projectName, projectDescription);
+        const projectId = crypto.randomUUID();
+        this.stateHandler.addProject(projectId,projectName, projectDescription);
         form.reset();
-        document.querySelector(".dialog-item").close();
+        
+        this.todoView.renderProject(this.stateHandler.getProjects());
     }
 
     deleteProject(projectId){
@@ -57,9 +51,6 @@ export class TodoController{
         this.stateHandler.editProject(projectId, field, value);
     }
 
-    showProjects(){
-        console.log(this.stateHandler.getProjects());
-    }
 
     // task methods
     createNewTask(projectId, title, description, dueDate, priority){

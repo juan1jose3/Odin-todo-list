@@ -4,6 +4,11 @@ export class TodoView{
 
     }
 
+    wipeView(){
+        const mainContent = document.querySelector(".main-content");
+        mainContent.textContent = "";
+    }
+
     renderProjects(projects){
         console.log(projects);
 
@@ -16,7 +21,17 @@ export class TodoView{
         mainContent.appendChild(todayWrapper);
     }
 
-    renderProject(project){
+    renderProject(projectList){
+        const currentProjectsList = document.querySelector(".current-projects-list");
+        currentProjectsList.textContent = "";
+
+        for(let project of projectList){
+            const projectBtn = document.createElement("button");
+            projectBtn.textContent = project.projectName;
+            projectBtn.dataset.projectId = project.projectId;
+            projectBtn.classList.add("custom-button");
+            currentProjectsList.appendChild(projectBtn);
+        }
 
     }
 
