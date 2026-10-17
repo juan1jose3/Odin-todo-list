@@ -47,6 +47,49 @@
                     </div>
                     
                 </dialog>
+
+                <dialog id="task-dialog" class="dialog-item">
+                    <h4>Create a new task</h4>
+                    <hr>
+                    <div class="form-wrapper">
+                        <form class="task-form">
+                           <div class="form-item">
+                                <div class="label-wrapper">
+                                    <label for="task-title">Task Title: *</label>
+                                </div>
+                                <input id="task-title" type="text" name="taskTitle" required>
+                           </div>
+                           <div class="form-item">
+                                <div class="label-wrapper">
+                                    <label for="task-description">Task Description:</label>
+                                </div>
+                                <textarea name="taskDescription" id="task-description" rows="4" cols="50"></textarea>
+                           </div>
+                           <div class="form-item">
+                                <div class="label-wrapper">
+                                    <label for="due-date">Due Date:</label>
+                                </div>
+                                <input type="date" name="dueDate" id="due-date">
+                           </div>
+                           <div class="form-item">
+                                <div class="label-wrapper">
+                                    <p>Task Priority:</p>
+                                </div>
+                                <label for="high">High</label>
+                                <input id="high" type="radio" name="taskPriority">
+
+                                <label for="medium">Medium</label>
+                                <input type="radio" name="taskPriority" id="medium">
+
+                                <label for="low">low</label>
+                                <input type="radio" name="taskPriority" id="low">
+                           </div>
+
+                        </form>
+                    </div>
+
+
+                </dialog>
                 
             </div>
             

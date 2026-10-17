@@ -11,7 +11,6 @@ export class TodoView{
 
     renderProjects(projects){
         console.log(projects);
-
     }
 
     renderToday(){
@@ -19,6 +18,74 @@ export class TodoView{
         const todayWrapper = document.createElement("div");
         todayWrapper.textContent = "rtedsñlfdsf";
         mainContent.appendChild(todayWrapper);
+    }
+
+    createTaskElement(task){
+        const taskCard = document.createElement("div");
+        taskCard.classList.add("task-card");
+        if (task.isDone) {
+            taskCard.classList.add("completed");
+        }
+        if (task.priority) {
+            taskCard.classList.add(`priority-${task.priority.toLowerCase()}`);
+        }
+        taskCard.dataset.taskId = task.id;
+
+        // Left side: Checkbox + Title & Description
+        const leftGroup = document.createElement("div");
+        leftGroup.classList.add("task-left");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = Boolean(task.isDone);
+        checkbox.classList.add("task-checkbox");
+        checkbox.dataset.taskId = task.id;
+
+        const infoWrapper = document.createElement("div");
+        infoWrapper.classList.add("task-info");
+
+        const taskTitle = document.createElement("h4");
+        taskTitle.textContent = task.title;
+        taskTitle.classList.add("task-title");
+
+        infoWrapper.appendChild(taskTitle);
+
+        if (task.description) {
+            const taskDesc = document.createElement("p");
+            taskDesc.textContent = task.description;
+            taskDesc.classList.add("task-description");
+            infoWrapper.appendChild(taskDesc);
+        }
+
+        leftGroup.append(checkbox, infoWrapper);
+
+        // Right side: Due Date, Priority badge, Delete button
+        const rightGroup = document.createElement("div");
+        rightGroup.classList.add("task-right");
+
+        if (task.dueDate) {
+            const dueDateSpan = document.createElement("span");
+            dueDateSpan.textContent = task.dueDate;
+            dueDateSpan.classList.add("task-due-date");
+            rightGroup.appendChild(dueDateSpan);
+        }
+
+        if (task.priority) {
+            const priorityBadge = document.createElement("span");
+            priorityBadge.textContent = task.priority;
+            priorityBadge.classList.add("task-priority-badge");
+            rightGroup.appendChild(priorityBadge);
+        }
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "🗑";
+        deleteBtn.classList.add("custom-button", "delete-task-btn");
+        deleteBtn.dataset.taskId = task.id;
+        rightGroup.appendChild(deleteBtn);
+
+        taskCard.append(leftGroup, rightGroup);
+
+        return taskCard;
     }
 
     renderCurrentProjectToSideBar(projectList){

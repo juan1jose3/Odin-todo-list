@@ -6,28 +6,39 @@ export class TodoController{
 
 
     showView(){
-        const sidebar = document.querySelector(".sidebar");
-        sidebar.addEventListener("click", event => {
+        const mainContainer = document.querySelector(".main-container");
+        mainContainer.addEventListener("click", event => {
             const btn = event.target.closest("button");
             if(!btn) return;
 
             this.todoView.renderProjects(this.stateHandler.getProjects());
-            
-            if(btn.classList.contains("today")){
-                this.todoView.wipeView();
-                this.todoView.renderToday();
-            }else if(btn.classList.contains("upcoming")){
-                this.todoView.wipeView();
-                this.todoView.renderUpcoming();
-            }else if(btn.classList.contains("all-tasks")){
-                this.todoView.wipeView();
-                this.todoView.renderAllTasks();
-            }else if(btn.classList.contains("create-project")){
-                this.createNewProject();
-            }else if(btn.classList.contains("project-item")){
-                const projectId = btn.dataset.projectId;
-                const project = this.stateHandler.getProjectById(projectId);
-                this.todoView.renderProject(project);
+
+            switch (true) {
+                case btn.classList.contains("today"):
+                    this.todoView.wipeView();
+                    this.todoView.renderToday();
+                    break;
+
+                case btn.classList.contains("upcoming"):
+                    this.todoView.wipeView();
+                    this.todoView.renderUpcoming();
+                    break;
+
+                case btn.classList.contains("all-tasks"):
+                    this.todoView.wipeView();
+                    this.todoView.renderAllTasks();
+                    break;
+
+                case btn.classList.contains("create-project"):
+                    this.createNewProject();
+                    break;
+
+                case btn.classList.contains("project-item"): {
+                    const projectId = btn.dataset.projectId;
+                    const project = this.stateHandler.getProjectById(projectId);
+                    this.todoView.renderProject(project);
+                    break;
+                }
             }
         });
     }
