@@ -39,6 +39,17 @@ export class TodoController{
                     this.todoView.renderProject(project);
                     break;
                 }
+
+                case btn.classList.contains("add-task-btn"): {
+                    this.todoView.renderAddTaskModal();
+                    break;
+                }
+
+                case btn.classList.contains("create-task"):{
+                    this.createNewTask();
+                    
+                    break;
+                }
             }
         });
     }
@@ -72,8 +83,29 @@ export class TodoController{
 
 
     // task methods
-    createNewTask(projectId, title, description, dueDate, priority){
-        this.stateHandler.createTodoTask(projectId, title, description, dueDate,priority);
+    createNewTask(){
+        const taskForm = document.querySelector(".task-form");
+        const taskDialog = document.querySelector("#task-dialog");
+        const addTaskButton = document.querySelector(".add-task-btn");
+        
+
+        const formData = new FormData(taskForm);
+
+        const projectId = addTaskButton.dataset.projectId;
+        const taskTitle = formData.get("taskTitle").trim();
+        if(taskTitle === "") return;
+
+        const taskDescription = formData.get("taskDescription").trim();
+        const dueDate = formData.get("dueDate").trim();
+        const taskPriority = formData.get("taskPriority");
+
+
+        this.stateHandler.createTodoTask(projectId,taskTitle, taskDescription, dueDate,taskPriority);
+
+        taskForm.reset();
+        taskDialog.close();
+
+        this.todoView.renderProject(this.stateHandler.getProjectById(projectId));
     }
 
     deleteTask(projectId,taskId){

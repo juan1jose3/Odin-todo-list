@@ -168,6 +168,7 @@ hr{
 }
 
 input[type="text"],
+input[type="date"],
 .form-item textarea{
     background-color: var(--input-bg);
     border: 1px solid var(--input-border-default);
@@ -177,14 +178,76 @@ input[type="text"],
     color: var(--input-text);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     font-size: var(--step--1);
+    color-scheme: dark;
 }
 
-input[type="text"]{
+input[type="text"],
+input[type="date"]{
     height: 35px;
     width: 100%;
 }
 
 input[type="text"]:hover,
+input[type="date"]:hover,
 .form-item textarea:hover{
     border-color: var(--input-border-hover);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+}
+
+/* Modern Priority Radio Chips */
+.priority-options {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.priority-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border-default);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: var(--step--1);
+    color: var(--secondary-text);
+    transition: all 0.2s ease;
+}
+
+.priority-label input[type="radio"] {
+    display: none;
+}
+
+.priority-label:hover {
+    border-color: var(--input-border-hover);
+    color: var(--primary-text);
+}
+
+.priority-label:has(input:checked) {
+    font-weight: bold;
+    color: var(--primary-text);
+}
+
+.priority-label.high:has(input:checked) {
+    border-color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.priority-label.medium:has(input:checked) {
+    border-color: #f59e0b;
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+}
+
+.priority-label.low:has(input:checked) {
+    border-color: #10b981;
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #10b981;
 }

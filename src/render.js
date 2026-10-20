@@ -88,6 +88,11 @@ export class TodoView{
         return taskCard;
     }
 
+    renderAddTaskModal(){
+        document.querySelector("#task-dialog").showModal();
+
+    }
+
     renderCurrentProjectToSideBar(projectList){
         const currentProjectsList = document.querySelector(".current-projects-list");
         currentProjectsList.textContent = "";

@@ -53,38 +53,53 @@
                     <hr>
                     <div class="form-wrapper">
                         <form class="task-form">
-                           <div class="form-item">
-                                <div class="label-wrapper">
-                                    <label for="task-title">Task Title: *</label>
+                            <div class="form-item-wrapper">
+                                <div class="form-item">
+                                     <div class="label-wrapper">
+                                         <label for="task-title">Task Title: *</label>
+                                     </div>
+                                     <input id="task-title" type="text" name="taskTitle" required>
                                 </div>
-                                <input id="task-title" type="text" name="taskTitle" required>
-                           </div>
-                           <div class="form-item">
-                                <div class="label-wrapper">
-                                    <label for="task-description">Task Description:</label>
+                                <div class="form-item">
+                                     <div class="label-wrapper">
+                                         <label for="task-description">Task Description:</label>
+                                     </div>
+                                     <textarea name="taskDescription" id="task-description" rows="4" cols="50"></textarea>
                                 </div>
-                                <textarea name="taskDescription" id="task-description" rows="4" cols="50"></textarea>
-                           </div>
-                           <div class="form-item">
-                                <div class="label-wrapper">
-                                    <label for="due-date">Due Date:</label>
+                                <div class="form-item">
+                                     <div class="label-wrapper">
+                                         <label for="due-date">Due Date:</label>
+                                     </div>
+                                     <input type="date" name="dueDate" id="due-date">
                                 </div>
-                                <input type="date" name="dueDate" id="due-date">
-                           </div>
-                           <div class="form-item">
-                                <div class="label-wrapper">
-                                    <p>Task Priority:</p>
+                                <div class="form-item">
+                                     <div class="label-wrapper">
+                                         <p>Task Priority:</p>
+                                     </div>
+                                     <div class="priority-options">
+                                         <label class="priority-label high">
+                                             <input id="high" type="radio" name="taskPriority" value="High">
+                                             <span>High</span>
+                                         </label>
+     
+                                         <label class="priority-label medium">
+                                             <input type="radio" name="taskPriority" id="medium" value="Medium" checked>
+                                             <span>Medium</span>
+                                         </label>
+     
+                                         <label class="priority-label low">
+                                             <input type="radio" name="taskPriority" id="low" value="Low">
+                                             <span>Low</span>
+                                         </label>
+                                     </div>
                                 </div>
-                                <label for="high">High</label>
-                                <input id="high" type="radio" name="taskPriority">
+                            </div>
 
-                                <label for="medium">Medium</label>
-                                <input type="radio" name="taskPriority" id="medium">
+                           <div class="form-button-container">
+                                <button type="button" class="custom-button create-task">Create!</button>
 
-                                <label for="low">low</label>
-                                <input type="radio" name="taskPriority" id="low">
-                           </div>
-
+                                <button type="button" commandfor="task-dialog" command="close" class="custom-button">Close</button>
+                            </div>
                         </form>
                     </div>
 
