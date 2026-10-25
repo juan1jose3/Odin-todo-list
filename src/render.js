@@ -1,7 +1,13 @@
+const ICONS = {
+    trash: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>`,
+    edit: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>`,
+    plus: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`
+};
+
 export class TodoView{
 
     renderSearch(){
-
+        
     }
 
     wipeView(){
@@ -77,8 +83,16 @@ export class TodoView{
             rightGroup.appendChild(priorityBadge);
         }
 
+        const editBtn = document.createElement("button");
+        editBtn.innerHTML = ICONS.edit;
+        editBtn.title = "Edit Task";
+        editBtn.classList.add("custom-button", "edit-task-btn");
+        editBtn.dataset.taskId = task.id;
+        rightGroup.appendChild(editBtn);
+
         const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "🗑";
+        deleteBtn.innerHTML = ICONS.trash;
+        deleteBtn.title = "Delete Task";
         deleteBtn.classList.add("custom-button", "delete-task-btn");
         deleteBtn.dataset.taskId = task.id;
         rightGroup.appendChild(deleteBtn);
@@ -90,7 +104,6 @@ export class TodoView{
 
     renderAddTaskModal(){
         document.querySelector("#task-dialog").showModal();
-
     }
 
     renderCurrentProjectToSideBar(projectList){
@@ -98,11 +111,22 @@ export class TodoView{
         currentProjectsList.textContent = "";
 
         for(let project of projectList){
+            const projectItem = document.createElement("div");
+            projectItem.classList.add("project-item-container");
+
             const projectBtn = document.createElement("button");
             projectBtn.textContent = project.projectName;
             projectBtn.dataset.projectId = project.projectId;
             projectBtn.classList.add("custom-button", "project-item");
-            currentProjectsList.appendChild(projectBtn);
+
+            const deleteProjectBtn = document.createElement("button");
+            deleteProjectBtn.innerHTML = ICONS.trash;
+            deleteProjectBtn.title = "Delete Project";
+            deleteProjectBtn.dataset.projectId = project.projectId;
+            deleteProjectBtn.classList.add("custom-button", "delete-project-btn");
+
+            projectItem.append(projectBtn, deleteProjectBtn);
+            currentProjectsList.appendChild(projectItem);
         }
 
     }
@@ -124,11 +148,21 @@ export class TodoView{
         const description = document.createElement("p");
         description.textContent = project.projectDescription;
 
+        const actionsWrapper = document.createElement("div");
+        actionsWrapper.classList.add("project-actions");
+
         const addTaskBtn = document.createElement("button");
-        addTaskBtn.textContent = "+ Add Task";
+        addTaskBtn.innerHTML = `${ICONS.plus} <span>Add Task</span>`;
         addTaskBtn.classList.add("custom-button", "add-task-btn");
         addTaskBtn.dataset.projectId = project.projectId;
 
+        const deleteProjectBtn = document.createElement("button");
+        deleteProjectBtn.innerHTML = `${ICONS.trash} <span>Delete Project</span>`;
+        deleteProjectBtn.title = "Delete Project";
+        deleteProjectBtn.classList.add("custom-button", "delete-project-btn");
+        deleteProjectBtn.dataset.projectId = project.projectId;
+
+        actionsWrapper.append(addTaskBtn, deleteProjectBtn);
 
         const taskListContainer = document.createElement("div");
         taskListContainer.classList.add("task-list-container");  
@@ -147,7 +181,7 @@ export class TodoView{
             }
         }
 
-        header.append(title, description, addTaskBtn);
+        header.append(title, description, actionsWrapper);
         projectContainer.appendChild(header);
         
         projectContainer.appendChild(taskListContainer);
