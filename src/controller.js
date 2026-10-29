@@ -29,9 +29,21 @@ export class TodoController{
                     this.todoView.renderAllTasks();
                     break;
 
-                case btn.classList.contains("create-project"):
+                case btn.classList.contains("create-project"):{
                     this.createNewProject();
                     break;
+                }
+
+                case btn.classList.contains("edit-project-btn"): {
+                    this.editProject(btn.dataset.projectId);
+                    
+                    break;
+                }
+                
+                case btn.classList.contains("delete-project-btn"): {
+                    this.deleteProject(btn.dataset.projectId);
+                    break;
+                }
 
                 case btn.classList.contains("project-item"): {
                     const projectId = btn.dataset.projectId;
@@ -51,9 +63,10 @@ export class TodoController{
                 }
 
                 case btn.classList.contains("delete-task-btn"): {
-                    this.deleteTask();
+                    this.deleteTask(btn.dataset.taskId);
                     break;
                 }
+
             }
         });
     }
@@ -78,6 +91,9 @@ export class TodoController{
 
     deleteProject(projectId){
         this.stateHandler.deleteProject(projectId);
+        this.todoView.renderCurrentProjectToSideBar(this.stateHandler.getProjects());
+        this.todoView.wipeView();
+        
     }
 
     editProject(projectId, field, value){
@@ -86,6 +102,8 @@ export class TodoController{
 
 
     // task methods
+
+
     createNewTask(){
         const taskForm = document.querySelector(".task-form");
         const taskDialog = document.querySelector("#task-dialog");

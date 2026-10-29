@@ -119,13 +119,23 @@ export class TodoView{
             projectBtn.dataset.projectId = project.projectId;
             projectBtn.classList.add("custom-button", "project-item");
 
+            const projectBtnsWrapper = document.createElement("div");
+            projectBtnsWrapper.classList.add("project-item-actions");
+
+            const editProjectBtn = document.createElement("button");
+            editProjectBtn.innerHTML = ICONS.edit;
+            editProjectBtn.title = "Edit Project";
+            editProjectBtn.dataset.projectId = project.projectId;
+            editProjectBtn.classList.add("custom-button", "edit-project-btn");
+
             const deleteProjectBtn = document.createElement("button");
             deleteProjectBtn.innerHTML = ICONS.trash;
             deleteProjectBtn.title = "Delete Project";
             deleteProjectBtn.dataset.projectId = project.projectId;
             deleteProjectBtn.classList.add("custom-button", "delete-project-btn");
 
-            projectItem.append(projectBtn, deleteProjectBtn);
+            projectBtnsWrapper.append(editProjectBtn, deleteProjectBtn);
+            projectItem.append(projectBtn, projectBtnsWrapper);
             currentProjectsList.appendChild(projectItem);
         }
 
@@ -156,13 +166,19 @@ export class TodoView{
         addTaskBtn.classList.add("custom-button", "add-task-btn");
         addTaskBtn.dataset.projectId = project.projectId;
 
+        const editProjectBtn = document.createElement("button");
+        editProjectBtn.innerHTML = `${ICONS.edit} <span>Edit Project</span>`;
+        editProjectBtn.title = "Edit Project";
+        editProjectBtn.classList.add("custom-button", "edit-project-btn");
+        editProjectBtn.dataset.projectId = project.projectId;
+
         const deleteProjectBtn = document.createElement("button");
         deleteProjectBtn.innerHTML = `${ICONS.trash} <span>Delete Project</span>`;
         deleteProjectBtn.title = "Delete Project";
         deleteProjectBtn.classList.add("custom-button", "delete-project-btn");
         deleteProjectBtn.dataset.projectId = project.projectId;
 
-        actionsWrapper.append(addTaskBtn, deleteProjectBtn);
+        actionsWrapper.append(addTaskBtn, editProjectBtn, deleteProjectBtn);
 
         const taskListContainer = document.createElement("div");
         taskListContainer.classList.add("task-list-container");  

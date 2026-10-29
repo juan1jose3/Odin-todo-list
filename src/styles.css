@@ -73,6 +73,8 @@ body{
 
 .main-container{
     display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .main-container .sidebar,
@@ -141,17 +143,48 @@ body{
 
 
 .dialog-item{
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1.5rem;
     position: fixed;
     inset: 0px;
-    min-width: 25%;    
-    height: 400px;
+    min-width: 380px;    
+    max-width: 90vw;
     margin: auto;
     background-color: var(--elevated-surface);
     color: var(--primary-text);
-    border: none;
-    border-radius: 8px;
+    border: 1px solid var(--input-border-default);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
 
+/* Modal Smooth Transitions */
+.dialog-item[open] {
+    animation: modalSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.dialog-item[open]::backdrop {
+    animation: backdropFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes backdropFadeIn {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+        backdrop-filter: blur(0px);
+    }
+    to {
+        background-color: rgba(5, 11, 20, 0.75);
+        backdrop-filter: blur(4px);
+    }
 }
 
 .dialog-item h4{
@@ -290,4 +323,196 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .edit-task-btn:hover {
     color: var(--primary-accent);
     background-color: rgba(0, 125, 255, 0.12);
+}
+
+.edit-project-btn:hover {
+    color: var(--primary-accent);
+    background-color: rgba(0, 125, 255, 0.12);
+}
+
+.project-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 3rem 4rem;
+}
+
+.project-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.project-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--input-border-default);
+    padding-bottom: 1.5rem;
+}
+
+.project-header h1 {
+    font-size: var(--step-3);
+    font-weight: 700;
+    color: var(--primary-text);
+}
+
+.project-header p {
+    color: var(--secondary-text);
+    font-size: var(--step-0);
+    line-height: 1.5;
+}
+
+/* Task List & Empty State */
+.task-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.empty-tasks-message {
+    color: var(--secondary-text);
+    font-style: italic;
+    padding: 3rem 1rem;
+    text-align: center;
+    background: var(--surface-background);
+    border-radius: 8px;
+    border: 1px dashed var(--input-border-default);
+    font-size: var(--step-0);
+}
+
+/* Task Card Component */
+.task-card {
+    background-color: var(--surface-background);
+    border: 1px solid var(--input-border-default);
+    border-left: 4px solid var(--secondary-text);
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.task-card:hover {
+    border-color: var(--input-border-hover);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+
+.task-card.priority-high {
+    border-left-color: #ef4444;
+}
+
+.task-card.priority-medium {
+    border-left-color: #f59e0b;
+}
+
+.task-card.priority-low {
+    border-left-color: #10b981;
+}
+
+
+.task-card.completed {
+    opacity: 0.55;
+}
+
+.task-card.completed .task-title {
+    text-decoration: line-through;
+    color: var(--secondary-text);
+}
+
+/* Task Left (Checkbox & Details) */
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.task-title {
+    font-size: var(--step-0);
+    font-weight: 600;
+    color: var(--primary-text);
+    word-break: break-word;
+}
+
+.task-description {
+    font-size: var(--step--1);
+    color: var(--secondary-text);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+/* Task Right (Due Date, Priority Badge, Actions) */
+.task-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.task-due-date {
+    font-size: var(--step--1);
+    color: var(--secondary-text);
+    background: var(--elevated-surface);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--input-border-default);
+    white-space: nowrap;
+}
+
+.task-priority-badge {
+    font-size: var(--step--2);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.priority-high .task-priority-badge {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.priority-medium .task-priority-badge {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.priority-low .task-priority-badge {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
 }
