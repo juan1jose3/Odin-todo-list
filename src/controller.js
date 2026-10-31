@@ -29,16 +29,27 @@ export class TodoController{
                     this.todoView.renderAllTasks();
                     break;
 
+                case btn.classList.contains("add-project-btn"): {
+                    this.todoView.renderProjectModal("add");
+                    break;
+                }
+
                 case btn.classList.contains("create-project"):{
                     this.createNewProject();
                     break;
                 }
 
                 case btn.classList.contains("edit-project-btn"): {
-                    this.editProject(btn.dataset.projectId);
+                    this.todoView.renderProjectModal("edit",this.stateHandler.getProjectById(btn.dataset.projectId));
+                    break;
+                }
+
+                case btn.classList.contains("edit-project"): {
                     
                     break;
                 }
+
+
                 
                 case btn.classList.contains("delete-project-btn"): {
                     this.deleteProject(btn.dataset.projectId);
@@ -96,8 +107,10 @@ export class TodoController{
         
     }
 
-    editProject(projectId, field, value){
-        this.stateHandler.editProject(projectId, field, value);
+    editProject(projectId){
+        const project = this.stateHandler.getProjectById(projectId);
+        
+        //this.stateHandler.editProject(projectId, field, value);
     }
 
 

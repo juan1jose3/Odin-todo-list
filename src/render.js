@@ -106,6 +106,41 @@ export class TodoView{
         document.querySelector("#task-dialog").showModal();
     }
 
+    renderProjectModal(action, project=null){
+
+        const form = document.querySelector(".project-form");
+        const dialog = document.querySelector("#custom-dialog");
+        const submitBtn = document.querySelector(".create-project");
+        const projectDialogTitle = document.querySelector(".project-dialog-title");
+
+        const actionButton ={
+            "edit": () => submitBtn.classList.replace("create-project", "edit-project"),
+
+            "add": () => submitBtn.classList.replace("edit-project", "create-project")
+        }
+
+        if(action === "edit"){
+            projectDialogTitle.textContent = "Edit project";
+            form.projectName.value = project.projectName;
+            form.description.value = project.projectDescription;
+            submitBtn.dataset.projectId = project.projectId;
+            actionButton[action](); 
+            submitBtn.dataset.action = "edit";            
+            submitBtn.textContent = "Edit!";
+            
+        }else{
+            projectDialogTitle.textContent = "Add a project";
+            submitBtn.textContent = "Create!";
+            actionButton[action](); 
+            submitBtn.dataset.action = "create";
+            form.reset();
+
+        }
+    
+        dialog.showModal();
+
+    }
+
     renderCurrentProjectToSideBar(projectList){
         const currentProjectsList = document.querySelector(".current-projects-list");
         currentProjectsList.textContent = "";
