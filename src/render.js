@@ -110,7 +110,7 @@ export class TodoView{
 
         const form = document.querySelector(".project-form");
         const dialog = document.querySelector("#custom-dialog");
-        const submitBtn = document.querySelector(".create-project");
+        const submitBtn = document.querySelector(".project-submit-btn");
         const projectDialogTitle = document.querySelector(".project-dialog-title");
 
         const actionButton ={

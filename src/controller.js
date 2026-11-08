@@ -45,12 +45,11 @@ export class TodoController{
                 }
 
                 case btn.classList.contains("edit-project"): {
-                    
+                    this.editProject();
                     break;
                 }
 
 
-                
                 case btn.classList.contains("delete-project-btn"): {
                     this.deleteProject(btn.dataset.projectId);
                     break;
@@ -107,10 +106,24 @@ export class TodoController{
         
     }
 
-    editProject(projectId){
-        const project = this.stateHandler.getProjectById(projectId);
+    editProject(){
+        const editProjectBtn = document.querySelector(".edit-project-btn");
+        const form = document.querySelector(".project-form");
+        const dialogItem = document.querySelector(".dialog-item");
+
+        const newFormData = new FormData(form);
+
+        const projectName = newFormData.get("projectName").trim();
+        if(projectName ==="") return;
+        const projectDescription = newFormData.get("description").trim();
+
+        dialogItem.close();
+
+        this.stateHandler.editProject(editProjectBtn.dataset.projectId, projectName, projectDescription);
+
+        this.todoView.renderCurrentProjectToSideBar(this.stateHandler.getProjects());
         
-        //this.stateHandler.editProject(projectId, field, value);
+        
     }
 
 

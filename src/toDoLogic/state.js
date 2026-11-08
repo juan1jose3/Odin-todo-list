@@ -32,10 +32,13 @@ export class StateHandler{
         this.projectCollection.splice(index, 1);
     }
 
-    editProject(projectId, field, value){
+    editProject(projectId, newProjectName, newProjectDescription){
         const index = this.getProjectIndex(projectId);
         if(index === undefined) return;
-        this.projectCollection[index][field] = value;
+
+        this.projectCollection[index]["projectName"] = newProjectName;
+        this.projectCollection[index]["projectDescription"] = newProjectDescription;
+        
     }
 
     // TodoTask methods
