@@ -29,6 +29,7 @@ export class TodoController{
                     this.todoView.renderAllTasks();
                     break;
 
+                // Project Actions
                 case btn.classList.contains("add-project-btn"): {
                     this.todoView.renderProjectModal("add");
                     break;
@@ -62,8 +63,10 @@ export class TodoController{
                     break;
                 }
 
+                // Task actions 
+
                 case btn.classList.contains("add-task-btn"): {
-                    this.todoView.renderAddTaskModal();
+                    this.todoView.renderTaskModal("add");
                     break;
                 }
 
@@ -74,6 +77,17 @@ export class TodoController{
 
                 case btn.classList.contains("delete-task-btn"): {
                     this.deleteTask(btn.dataset.taskId);
+                    break;
+                }
+
+                case btn.classList.contains("edit-task-btn"): {
+                    const task = this.getTask(btn.dataset.taskId);
+                    this.todoView.renderTaskModal("edit", task);
+                    break;
+                }
+
+                case btn.classList.contains("edit-task"): {
+                    this.editTask(btn.dataset.taskId);
                     break;
                 }
 
@@ -110,20 +124,16 @@ export class TodoController{
         const editProjectBtn = document.querySelector(".edit-project-btn");
         const form = document.querySelector(".project-form");
         const dialogItem = document.querySelector(".dialog-item");
-
         const newFormData = new FormData(form);
-
         const projectName = newFormData.get("projectName").trim();
-        if(projectName ==="") return;
+
+        if(projectName === "") return;
         const projectDescription = newFormData.get("description").trim();
 
         dialogItem.close();
-
         this.stateHandler.editProject(editProjectBtn.dataset.projectId, projectName, projectDescription);
 
         this.todoView.renderCurrentProjectToSideBar(this.stateHandler.getProjects());
-        
-        
     }
 
 
@@ -134,24 +144,19 @@ export class TodoController{
         const taskForm = document.querySelector(".task-form");
         const taskDialog = document.querySelector("#task-dialog");
         const addTaskButton = document.querySelector(".add-task-btn");
-        
 
         const formData = new FormData(taskForm);
-
         const projectId = addTaskButton.dataset.projectId;
         const taskTitle = formData.get("taskTitle").trim();
         if(taskTitle === "") return;
-
         const taskDescription = formData.get("taskDescription").trim();
         const dueDate = formData.get("dueDate").trim();
         const taskPriority = formData.get("taskPriority");
-
 
         this.stateHandler.createTodoTask(projectId,taskTitle, taskDescription, dueDate,taskPriority);
 
         taskForm.reset();
         taskDialog.close();
-
         this.todoView.renderProject(this.stateHandler.getProjectById(projectId));
     }
 
@@ -159,12 +164,33 @@ export class TodoController{
         const projectId = document.querySelector(".add-task-btn").dataset.projectId;
         const taskId = document.querySelector(".delete-task-btn").dataset.taskId;
         this.stateHandler.deleteTodoTask(projectId, taskId);
-
         this.todoView.renderProject(this.stateHandler.getProjectById(projectId));
     }
 
-    editTask(projectId, taskId, field, value){
-        this.stateHandler.editTodoTask(projectId, taskId, field, value);
+    getTask(taskId){
+        const projectId = document.querySelector(".add-task-btn").dataset.projectId;
+        const project = this.stateHandler.getProjectById(projectId)["todoCollection"];
+        return this.stateHandler.getTaskByProjectAndTask(project, taskId)
+        
+    }
+
+    editTask(taskId){
+        const taskForm = document.querySelector(".task-form");
+        const dialogItem = document.querySelector("#task-dialog");
+        const projectId = document.querySelector(".add-task-btn").dataset.projectId;
+        const formData = new FormData(taskForm);
+
+        const taskTitle = formData.get("taskTitle").trim();
+        if(taskTitle === "") return;
+        const taskDescription = formData.get("taskDescription").trim();
+        const dueDate = formData.get("dueDate").trim();
+        const taskPriority = formData.get("taskPriority") || "Medium";
+
+        dialogItem.close();
+        
+        this.stateHandler.editTodoTask(projectId,taskId, taskTitle, taskDescription, dueDate, taskPriority);
+        
+        this.todoView.renderProject(this.stateHandler.getProjectById(projectId));
     }
 }
 

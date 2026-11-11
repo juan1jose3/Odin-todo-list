@@ -26,10 +26,13 @@ export class ProjectHandler{
         this.todoCollection.splice(index, 1);
     }
     
-    editTodo(id, field, value){
-        const index = this.getTodoIndex(id);
-        if(index === undefined) return;
-        this.todoCollection[index][field] = value;
+    editTodo(taskId, taskTitle, taskDescription, dueDate, taskPriority){
+        const index = this.getTodoIndex(taskId);
+        if(taskTitle === "") return;
+        this.todoCollection[index]["title"] = taskTitle;
+        this.todoCollection[index]["description"] = taskDescription;
+        this.todoCollection[index]["dueDate"] = dueDate;
+        this.todoCollection[index]["priority"] = taskPriority;
     }
 
     showAll(){ // I have to change this to return when UI

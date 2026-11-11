@@ -102,8 +102,54 @@ export class TodoView{
         return taskCard;
     }
 
-    renderAddTaskModal(){
-        document.querySelector("#task-dialog").showModal();
+    renderTaskModal(action, task = null){
+        const form = document.querySelector(".task-form");
+        const dialog = document.querySelector("#task-dialog");
+        const submitBtn = document.querySelector(".task-submit-btn");
+        const taskDialogTitle = document.querySelector(".task-dialog-title");
+
+        const actionButton = {
+            "edit": () => {
+                submitBtn.classList.remove("create-task");
+                submitBtn.classList.add("edit-task");
+            },
+            "add": () => {
+                submitBtn.classList.remove("edit-task");
+                submitBtn.classList.add("create-task");
+            }
+        };
+
+        if(action === "edit" && task){
+            taskDialogTitle.textContent = "Edit Task";
+            submitBtn.textContent = "Save Changes";
+            submitBtn.dataset.taskId = task.id;
+            actionButton[action]();
+
+            
+            form.taskTitle.value = task.title;
+            form.taskDescription.value = task.description || "";
+            form.dueDate.value = task.dueDate || "";
+
+            
+            const priorityRadio = form.querySelector(`input[name="taskPriority"][value="${task.priority}"]`);
+            if (priorityRadio) {
+                priorityRadio.checked = true;
+            }
+        } else {
+            taskDialogTitle.textContent = "Create a new task";
+            submitBtn.textContent = "Create!";
+            delete submitBtn.dataset.taskId;
+            actionButton[action]();
+
+            form.reset();
+            
+            const defaultRadio = form.querySelector("#medium");
+            if (defaultRadio) {
+                defaultRadio.checked = true;
+            }
+        }
+
+        dialog.showModal();
     }
 
     renderProjectModal(action, project=null){
@@ -134,9 +180,7 @@ export class TodoView{
             actionButton[action](); 
             submitBtn.dataset.action = "create";
             form.reset();
-
         }
-    
         dialog.showModal();
 
     }

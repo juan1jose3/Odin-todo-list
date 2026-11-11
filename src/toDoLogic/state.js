@@ -42,6 +42,11 @@ export class StateHandler{
     }
 
     // TodoTask methods
+
+
+    getTaskByProjectAndTask(project, taskId){
+        return project.find(task => task.id === taskId);
+    }
      
     showTodoTasks(projectId){ // I have to replace this by returning when UI
         this.projectCollection[this.getProjectIndex(projectId)].showAll();
@@ -60,10 +65,10 @@ export class StateHandler{
         this.projectCollection[index].deleteTodo(taskId);
     }
 
-    editTodoTask(projectId, taskId, field, value){
+    editTodoTask(projectId, taskId, taskTitle, taskDescription, dueDate, taskPriority){
         const index = this.getProjectIndex(projectId);
         if(index === undefined) return;
-        this.projectCollection[index].editTodo(taskId, field, value);
+        this.projectCollection[index].editTodo(taskId,taskTitle, taskDescription, dueDate, taskPriority);
     }
 
 }
