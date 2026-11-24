@@ -1,13 +1,84 @@
 const ICONS = {
     trash: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>`,
     edit: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>`,
-    plus: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`
+    plus: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`,
+    search: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`
 };
 
 export class TodoView{
 
     renderSearch(){
-        
+        const mainContent = document.querySelector(".main-content");
+        mainContent.textContent = "";
+
+        const searchContainer = document.createElement("div");
+        searchContainer.classList.add("project-container", "search-container");
+
+        const header = document.createElement("div");
+        header.classList.add("project-header");
+
+        const title = document.createElement("h1");
+        title.textContent = "Search Tasks";
+
+        const description = document.createElement("p");
+        description.textContent = "Search across all your projects by task title or description";
+
+        const searchInputWrapper = document.createElement("div");
+        searchInputWrapper.classList.add("search-input-wrapper");
+
+        const searchIconSpan = document.createElement("span");
+        searchIconSpan.classList.add("search-input-icon");
+
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Type to search tasks...";
+        searchInput.classList.add("search-input");
+        searchInput.autocomplete = "off";
+
+        searchInputWrapper.append(searchIconSpan, searchInput);
+        header.append(title, description, searchInputWrapper);
+        searchContainer.appendChild(header);
+
+        const resultsContainer = document.createElement("div");
+        resultsContainer.classList.add("task-list-container", "search-results-container");
+
+        const initialMsg = document.createElement("p");
+        initialMsg.classList.add("empty-tasks-message");
+        resultsContainer.appendChild(initialMsg);
+
+        searchContainer.appendChild(resultsContainer);
+        mainContent.appendChild(searchContainer);
+
+        searchInput.focus();
+    }
+
+    renderSearchResults(tasks = [], query = ""){
+        const resultsContainer = document.querySelector(".search-results-container");
+        if(!resultsContainer) return;
+
+        resultsContainer.textContent = "";
+
+        const cleanQuery = query.trim();
+        if(cleanQuery === ""){
+            const initialMsg = document.createElement("p");
+            initialMsg.textContent = "Start typing above to search tasks...";
+            initialMsg.classList.add("empty-tasks-message");
+            resultsContainer.appendChild(initialMsg);
+            return;
+        }
+
+        if(tasks.length === 0){
+            const emptyMsg = document.createElement("p");
+            emptyMsg.textContent = `No tasks found matching "${cleanQuery}".`;
+            emptyMsg.classList.add("empty-tasks-message");
+            resultsContainer.appendChild(emptyMsg);
+            return;
+        }
+
+        for(let task of tasks){
+            const taskCard = this.createTaskElement(task, false);
+            resultsContainer.appendChild(taskCard);
+        }
     }
 
     wipeView(){
@@ -19,14 +90,55 @@ export class TodoView{
         console.log(projects);
     }
 
-    renderToday(){
-        const mainContent = document.querySelector(".main-content");
-        const todayWrapper = document.createElement("div");
-        todayWrapper.textContent = "rtedsñlfdsf";
-        mainContent.appendChild(todayWrapper);
+    renderToday(tasks = []){
+        this.renderTaskListView("Today", "Tasks scheduled for today", tasks);
     }
 
-    createTaskElement(task){
+    renderAllTasks(tasks = []){
+        this.renderTaskListView("All Tasks", "Every task across all your projects", tasks);
+    }
+
+    renderTaskListView(viewTitle, viewSubtitle, tasks = []){
+        const mainContent = document.querySelector(".main-content");
+        mainContent.textContent = "";
+
+        const projectContainer = document.createElement("div");
+        projectContainer.classList.add("project-container");
+
+        const header = document.createElement("div");
+        header.classList.add("project-header");
+
+        const title = document.createElement("h1");
+        title.textContent = viewTitle;
+
+        const description = document.createElement("p");
+        description.textContent = viewSubtitle;
+
+        header.append(title, description);
+        projectContainer.appendChild(header);
+
+        const taskListContainer = document.createElement("div");
+        taskListContainer.classList.add("task-list-container");
+
+        if(!tasks || tasks.length === 0){
+            const emptyMsg = document.createElement("p");
+            emptyMsg.textContent = viewTitle === "Today" 
+                ? "No tasks due today. You're all caught up!" 
+                : "No tasks found across any projects.";
+            emptyMsg.classList.add("empty-tasks-message");
+            taskListContainer.appendChild(emptyMsg);
+        } else {
+            for(let task of tasks){
+                const taskCard = this.createTaskElement(task, false);
+                taskListContainer.appendChild(taskCard);
+            }
+        }
+
+        projectContainer.appendChild(taskListContainer);
+        mainContent.appendChild(projectContainer);
+    }
+
+    createTaskElement(task, showActions = true){
         const taskCard = document.createElement("div");
         taskCard.classList.add("task-card");
         if (task.isDone) {
@@ -65,7 +177,7 @@ export class TodoView{
 
         leftGroup.append(checkbox, infoWrapper);
 
-        // Right side: Due Date, Priority badge, Delete button
+        // Right side: Due Date, Priority badge, Delete/Edit buttons
         const rightGroup = document.createElement("div");
         rightGroup.classList.add("task-right");
 
@@ -83,19 +195,21 @@ export class TodoView{
             rightGroup.appendChild(priorityBadge);
         }
 
-        const editBtn = document.createElement("button");
-        editBtn.innerHTML = ICONS.edit;
-        editBtn.title = "Edit Task";
-        editBtn.classList.add("custom-button", "edit-task-btn");
-        editBtn.dataset.taskId = task.id;
-        rightGroup.appendChild(editBtn);
+        if(showActions){
+            const editBtn = document.createElement("button");
+            editBtn.innerHTML = ICONS.edit;
+            editBtn.title = "Edit Task";
+            editBtn.classList.add("custom-button", "edit-task-btn");
+            editBtn.dataset.taskId = task.id;
+            rightGroup.appendChild(editBtn);
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.innerHTML = ICONS.trash;
-        deleteBtn.title = "Delete Task";
-        deleteBtn.classList.add("custom-button", "delete-task-btn");
-        deleteBtn.dataset.taskId = task.id;
-        rightGroup.appendChild(deleteBtn);
+            const deleteBtn = document.createElement("button");
+            deleteBtn.innerHTML = ICONS.trash;
+            deleteBtn.title = "Delete Task";
+            deleteBtn.classList.add("custom-button", "delete-task-btn");
+            deleteBtn.dataset.taskId = task.id;
+            rightGroup.appendChild(deleteBtn);
+        }
 
         taskCard.append(leftGroup, rightGroup);
 
@@ -283,14 +397,6 @@ export class TodoView{
 
         mainContent.appendChild(projectContainer);
 
-    }
-
-    renderAllTasks(){
-        
-    }
-
-    renderUpcoming(){
- 
     }
 
 }

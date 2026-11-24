@@ -8,35 +8,45 @@ export class TodoController{
     showView(){
         const mainContainer = document.querySelector(".main-container");
 
+        mainContainer.addEventListener("input", event => {
+          const searchInput = event.target.closest(".search-input");
+          if (!searchInput) return;
+
+          const query = searchInput.value;
+          const matches = this.stateHandler.searchTasks(query);
+          this.todoView.renderSearchResults(matches, query);
+        });
+
         mainContainer.addEventListener("click", event => {
             const checkBox = event.target.closest(".task-checkbox");
             
             if(checkBox){
-                const taskId = checkBox.dataset.taskId;
-                const projectId = document.querySelector(".add-task-btn").dataset.projectId;
-                this.stateHandler.toggleTodoTask(projectId, taskId);
-                this.todoView.renderProject(this.stateHandler.getProjectById(projectId));
-                return;
+              const taskId = checkBox.dataset.taskId;
+              this.stateHandler.toggleTodoTaskById(taskId);
+              const taskCard = checkBox.closest(".task-card");
+              taskCard.classList.toggle("completed");
             }
             
             const btn = event.target.closest("button");
             if(!btn) return;
             this.todoView.renderProjects(this.stateHandler.getProjects());
 
-            switch (true) {
+          switch (true) {
+
+                case btn.classList.contains("search"):
+                    this.todoView.renderSearch();
+                    break;
+            
                 case btn.classList.contains("today"):
                     this.todoView.wipeView();
-                    this.todoView.renderToday();
-                    break;
-
-                case btn.classList.contains("upcoming"):
-                    this.todoView.wipeView();
-                    this.todoView.renderUpcoming();
+                    const todayTasks = this.stateHandler.getTodayTasks();
+                    this.todoView.renderToday(todayTasks);
                     break;
 
                 case btn.classList.contains("all-tasks"):
                     this.todoView.wipeView();
-                    this.todoView.renderAllTasks();
+                    const allTasks = this.stateHandler.getAllTasks()
+                    this.todoView.renderAllTasks(allTasks);
                     break;
 
                 // Project Actions
@@ -180,8 +190,7 @@ export class TodoController{
     getTask(taskId){
         const projectId = document.querySelector(".add-task-btn").dataset.projectId;
         const project = this.stateHandler.getProjectById(projectId)["todoCollection"];
-        return this.stateHandler.getTaskByProjectAndTask(project, taskId)
-        
+      return this.stateHandler.getTaskByProjectAndTask(project, taskId);   
     }
 
     editTask(taskId){

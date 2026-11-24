@@ -42,7 +42,7 @@ export class ProjectHandler{
         this.todoCollection[index]["priority"] = taskPriority;
     }
 
-    showAll(){ // I have to change this to return when UI
+    showAllTasks(){ // I have to change this to return when UI
         for(let task of this.todoCollection){
             console.log(`id: ${task.id}`);
             console.log(`title: ${task.title}`);

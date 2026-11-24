@@ -516,3 +516,44 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #10b981;
     border: 1px solid rgba(16, 185, 129, 0.3);
 }
+
+/* Search View Styling */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 0.75rem;
+}
+
+.search-input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--secondary-text);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    height: 44px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border-default);
+    border-radius: 8px;
+    padding: 0 16px 0 42px;
+    color: var(--primary-text);
+    font-size: var(--step-0);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 3px rgba(0, 125, 255, 0.2);
+}
+
+.search-input::placeholder {
+    color: var(--secondary-text);
+    font-size: var(--step--1);
+}

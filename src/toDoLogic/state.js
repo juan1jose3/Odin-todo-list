@@ -53,6 +53,16 @@ export class StateHandler{
         if(index === undefined) return;
         this.projectCollection[index].toggleTodo(taskId);
     }
+
+    toggleTodoTaskById(taskId) {
+      for (let project of this.projectCollection) {
+        const task = project.todoCollection.find(t => t.id === taskId);
+        if (task) {
+          task.isDone = !task.isDone;
+          return;
+        }
+      }
+    }
      
     showTodoTasks(projectId){ // I have to replace this by returning when UI
         this.projectCollection[this.getProjectIndex(projectId)].showAll();
@@ -79,17 +89,29 @@ export class StateHandler{
 
     //filtering methods
 
-    getTodayTasks(){
-
-    }
-
-    getUpcommingTasks(){
-
-    }
-
     getAllTasks(){
-        
+      return this.projectCollection.flatMap(project => project.todoCollection);
     }
+  
+    getTodayTasks(){
+      const today = new Date().toLocaleDateString('en-CA');
+      const allTasks = this.getAllTasks();
+      return allTasks.filter(todo => todo.dueDate === today);
+    }
+
+    searchTasks(query) {
+      const cleanQuery = query.toLowerCase().trim();
+      if (!cleanQuery) return [];
+
+      return this.getAllTasks().filter(task => {
+        const titleMatch = task.title.toLowerCase().includes(cleanQuery);
+        const descMatch = task.description?.toLowerCase().includes(cleanQuery);
+        return titleMatch || descMatch;
+      });
+    }
+
+  
+
 
 
 
