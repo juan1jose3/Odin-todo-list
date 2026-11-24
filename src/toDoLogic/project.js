@@ -14,6 +14,13 @@ export class ProjectHandler{
         return index;
     }
 
+
+    toggleTodo(taskId){
+        const index = this.getTodoIndex(taskId);
+        if(index === undefined) return;
+        this.todoCollection[index].isDone = !this.todoCollection[index].isDone;
+    }
+
     
     addTodo(id,title, description = "", dueDate, priority){
         const newTask = new ToDoTask(id, title, description, dueDate, priority);

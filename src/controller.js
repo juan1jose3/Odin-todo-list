@@ -7,10 +7,20 @@ export class TodoController{
 
     showView(){
         const mainContainer = document.querySelector(".main-container");
+
         mainContainer.addEventListener("click", event => {
+            const checkBox = event.target.closest(".task-checkbox");
+            
+            if(checkBox){
+                const taskId = checkBox.dataset.taskId;
+                const projectId = document.querySelector(".add-task-btn").dataset.projectId;
+                this.stateHandler.toggleTodoTask(projectId, taskId);
+                this.todoView.renderProject(this.stateHandler.getProjectById(projectId));
+                return;
+            }
+            
             const btn = event.target.closest("button");
             if(!btn) return;
-
             this.todoView.renderProjects(this.stateHandler.getProjects());
 
             switch (true) {
